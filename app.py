@@ -7,7 +7,7 @@ from telegram.ext import (
 import os
 import asyncio
 
-TOKEN = "твой_токен"
+TOKEN = "8053119583:AAEk2_DTDRqta2_gPuZ83DZkcebwyZ1nKPM"
 WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = f"https://твой-домен.onrender.com{WEBHOOK_PATH}"
 
