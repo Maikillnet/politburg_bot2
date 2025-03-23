@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 import os
 
-TOKEN = "тут_твой_реальный_токен"
+TOKEN = "8053119583:AAEk2_DTDRqta2_gPuZ83DZkcebwyZ1nKPM"
 WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = f"https://politburg-bot.onrender.com{WEBHOOK_PATH}"
 
