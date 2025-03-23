@@ -68,6 +68,10 @@ application.add_handler(CommandHandler("stats", stats_command))
 
 # === Запуск Flask ===
 if __name__ == "__main__":
+    # Установка вебхука
+    asyncio.get_event_loop().run_until_complete(set_webhook())
+
+    # Запуск Flask
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
 
