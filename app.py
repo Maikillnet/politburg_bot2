@@ -32,7 +32,12 @@ telegram_app.add_handler(CommandHandler("post", post_command))
 # === WEBHOOK ОБРАБОТЧИК ===
 @app.route(WEBHOOK_PATH, methods=["POST"])
 def webhook():
+
 if __name__ == "__main__":
+    telegram_app.add_handler(CommandHandler("start", start))
+    telegram_app.add_handler(CommandHandler("help", help_command))
+    telegram_app.add_handler(CommandHandler("post", post_command))
+
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
 
