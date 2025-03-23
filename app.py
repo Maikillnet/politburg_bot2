@@ -8,35 +8,37 @@ WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = f"https://politburg-bot.onrender.com{WEBHOOK_PATH}"
 
 app = Flask(__name__)
-application = ApplicationBuilder().token(TOKEN).build()
+telegram_app = ApplicationBuilder().token(TOKEN).build()
 
-# === Команды ===
+# Хэндлеры
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("PolitBurgBot в строю. Жду приказов.")
+    await update.message.reply_text("Я здесь. Что дальше?")
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("/start /help /post")
+    await update.message.reply_text("/start\n/help\n/post")
 
 async def post_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Постинг в процессе разработки...")
+    await update.message.reply_text("⚠️ Постинг ещё не подключен.")
 
-application.add_handler(CommandHandler("start", start))
-application.add_handler(CommandHandler("help", help_command))
-application.add_handler(CommandHandler("post", post_command))
+# Добавление хэндлеров
+telegram_app.add_handler(CommandHandler("start", start))
+telegram_app.add_handler(CommandHandler("help", help_command))
+telegram_app.add_handler(CommandHandler("post", post_command))
 
-# === Webhook обработка ===
+# Обработка вебхука
 @app.route(WEBHOOK_PATH, methods=["POST"])
 def webhook():
-    data = request.get_json(force=True)
-    update = Update.de_json(data, application.bot)
-    application.update_queue.put(update)
-    return "OK"
+    update = Update.de_json(request.get_json(force=True), telegram_app.bot)
+    telegram_app.update_queue.put_nowait(update)
+    return "OK", 200
 
-# Установка webhook при старте
-@app.before_first_request
-def init_webhook():
-    app.logger.info("Устанавливаю webhook...")
-    application.bot.set_webhook(WEBHOOK_URL)
+# Запуск
+if __name__ == "__main__":
+    telegram_app.run_webhook(
+        listen="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000)),
+        webhook_url=WEBHOOK_URL
+    )
 
 # Запуск Flask-сервера
 if __name__ == "__main__":
