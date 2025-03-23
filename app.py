@@ -32,7 +32,7 @@ telegram_app.add_handler(CommandHandler("post", post_command))
 # === WEBHOOK ОБРАБОТЧИК ===
 @app.route(WEBHOOK_PATH, methods=["POST"])
 def webhook():
-    if request.method == "POST":
-        update = Update.de_json(json.loads(request.data), telegram_app.bot)
-        asyncio.run(telegram_app.process_update(update))
-    return "OK", 200
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+
